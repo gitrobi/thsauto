@@ -265,7 +265,12 @@ class ThsAuto:
         hot_key(['F3'])
         time.sleep(sleep_time)
         hwnd = self.get_right_hwnd()
-        ctrl = win32gui.GetDlgItem(hwnd, 0x7531)
+        if direct == 1:
+            ctrl = win32gui.GetDlgItem(hwnd, 0x7532)
+        elif direct == 2:
+            ctrl = win32gui.GetDlgItem(hwnd, 0x7533)
+        else:
+            ctrl = win32gui.GetDlgItem(hwnd, 0x7531)
         win32gui.SetForegroundWindow(ctrl)
         time.sleep(sleep_time)
         left, top, right, bottom = win32gui.GetWindowRect(ctrl)
