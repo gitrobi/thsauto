@@ -260,7 +260,7 @@ class ThsAuto:
             hot_key(['enter'])
             return result
 
-    def cancel_all(self):
+    def cancel_all(self, direct=0): # direct:0|all, 1|buy, 2|sell
         #win32gui.SetForegroundWindow(self.hwnd_main)
         hot_key(['F3'])
         time.sleep(sleep_time)
