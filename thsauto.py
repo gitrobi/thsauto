@@ -11,12 +11,12 @@ import math
 from const import VK_CODE, BALANCE_CONTROL_ID_GROUP
 
 sleep_time = 0.2
-retry_time = 10
+retry_time = 5
 
 def get_clipboard_data():
     win32clipboard.OpenClipboard()
     try:
-        data = win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT)
+        data = win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT) # win32clipboard.CF_UNICODETEXT
     finally:
         win32clipboard.CloseClipboard()
     return data
@@ -78,6 +78,7 @@ class ThsAuto:
         return hwnd
 
     def get_balance(self):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
         hot_key(['F4'])
         time.sleep(sleep_time)
         self.refresh()
@@ -89,7 +90,8 @@ class ThsAuto:
         return result
         
     def get_position(self):
-        hot_key(['F1'])
+        #win32gui.SetForegroundWindow(self.hwnd_main)
+        hot_key(['F2'])
         time.sleep(sleep_time)
         hot_key(['F6'])
         time.sleep(sleep_time)
@@ -110,6 +112,7 @@ class ThsAuto:
         return {}
 
     def get_active_orders(self):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
         hot_key(['F1'])
         time.sleep(sleep_time)
         hot_key(['F8'])
@@ -131,6 +134,7 @@ class ThsAuto:
         return {}
         
     def get_filled_orders(self):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
         hot_key(['F2'])
         time.sleep(sleep_time)
         hot_key(['F7'])
@@ -152,6 +156,7 @@ class ThsAuto:
         return {}
 
     def sell(self, stock_no, amount, price):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
         price = '%.3f' % float(price)
         hot_key(['F2'])
         time.sleep(sleep_time)
@@ -172,13 +177,15 @@ class ThsAuto:
         while not result and retry < retry_time:
             retry += 1
             time.sleep(sleep_time)
-            hot_key(['y'])
-            time.sleep(sleep_time)
+            # robi 注释掉以下代码
+            # hot_key(['y'])
+            # time.sleep(sleep_time)
             result = self.get_result()
         hot_key(['enter'])
         return result
 
     def buy(self, stock_no, amount, price):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
         price = '%.3f' % float(price)
         hot_key(['F1'])
         time.sleep(sleep_time)
@@ -199,13 +206,15 @@ class ThsAuto:
         while not result and retry < retry_time:
             retry += 1
             time.sleep(sleep_time)
-            hot_key(['y'])
-            time.sleep(sleep_time)
+            # robi 注释掉以下代码
+            # hot_key(['y'])
+            # time.sleep(sleep_time)
             result = self.get_result()
         hot_key(['enter'])
         return result
 
     def cancel(self, entrust_no):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
         hot_key(['F3'])
         time.sleep(sleep_time)
         hwnd = self.get_right_hwnd()
@@ -232,6 +241,7 @@ class ThsAuto:
             x = 50 + left
             y = 30 + 16 * find + top
             win32api.SetCursorPos((x, y))
+
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
             time.sleep(sleep_time)
@@ -243,11 +253,41 @@ class ThsAuto:
             while not result and retry < retry_time:
                 retry += 1
                 time.sleep(sleep_time)
-                hot_key(['y'])
-                time.sleep(sleep_time)
+                # robi 注释掉以下代码
+                #hot_key(['y'])
+                #time.sleep(sleep_time)
                 result = self.get_result()
             hot_key(['enter'])
             return result
+
+    def cancel_all(self):
+        #win32gui.SetForegroundWindow(self.hwnd_main)
+        hot_key(['F3'])
+        time.sleep(sleep_time)
+        hwnd = self.get_right_hwnd()
+        ctrl = win32gui.GetDlgItem(hwnd, 0x7531)
+        win32gui.SetForegroundWindow(ctrl)
+        time.sleep(sleep_time)
+        left, top, right, bottom = win32gui.GetWindowRect(ctrl)
+        x = 30 + left
+        y = 10 + top
+        win32api.SetCursorPos((x, y))
+
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+        time.sleep(sleep_time)
+        result = None
+        retry = 0
+        while not result and retry < retry_time:
+            retry += 1
+            time.sleep(sleep_time)
+            # robi 注释掉以下代码
+            # hot_key(['y'])
+            # time.sleep(sleep_time)
+            result = self.get_result()
+        hot_key(['enter'])
+        return result
+
 
     def get_result(self):
         tid, pid = win32process.GetWindowThreadProcessId(self.hwnd_main)
