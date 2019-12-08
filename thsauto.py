@@ -260,14 +260,14 @@ class ThsAuto:
             hot_key(['enter'])
             return result
 
-    def cancel_all(self, direct=0): # direct:0|all, 1|buy, 2|sell
+    def cancel_all(self, direct=None): # direct:None|all, '1'|buy, '2'|sell
         #win32gui.SetForegroundWindow(self.hwnd_main)
         hot_key(['F3'])
         time.sleep(sleep_time)
         hwnd = self.get_right_hwnd()
-        if direct == 1:
+        if direct == '1':
             ctrl = win32gui.GetDlgItem(hwnd, 0x7532)
-        elif direct == 2:
+        elif direct == '2':
             ctrl = win32gui.GetDlgItem(hwnd, 0x7533)
         else:
             ctrl = win32gui.GetDlgItem(hwnd, 0x7531)

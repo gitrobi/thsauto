@@ -109,7 +109,7 @@ def cancel():
 @interval_call
 def cancel_all():
     direct = request.args['direct']
-    result = auto.cancel_all(direct=int(direct))
+    result = auto.cancel_all(direct=direct)
     return jsonify(result), 200
 
 
