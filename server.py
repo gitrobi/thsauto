@@ -10,7 +10,7 @@ app.config['JSON_AS_ASCII'] = False
 auto = ThsAuto()
 
 last_time = 0
-interval = 4
+interval = 3
 
 APP = 't'
 BALANCE = 'bal'

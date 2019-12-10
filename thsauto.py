@@ -18,6 +18,7 @@ def get_clipboard_data():
     try:
         data = win32clipboard.GetClipboardData(win32clipboard.CF_UNICODETEXT) # win32clipboard.CF_UNICODETEXT
     finally:
+        win32clipboard.EmptyClipboard()
         win32clipboard.CloseClipboard()
     return data
 
